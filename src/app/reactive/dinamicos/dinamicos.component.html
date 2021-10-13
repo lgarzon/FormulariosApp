@@ -1,7 +1,7 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr />
 
-<form (ngSubmit)="guardar()" autocomplete="off" [formGroup]="miFormulario">
+<form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="guardar()">
   <!-- Nombre -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Nombre</label>
@@ -22,9 +22,20 @@
     <label class="col-sm-3 col-form-label">Agregar</label>
     <div class="col-sm-9">
       <div class="input-group">
-        <input class="form-control" placeholder="Agregar favorito" />
+        <input
+          class="form-control"
+          [formControl]="nuevoFavorito"
+          placeholder="Agregar favorito"
+          (keyup.enter)="agregarFavorito()"
+        />
 
-        <button class="btn btn-outline-primary" type="button">Agregar</button>
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          (click)="agregarFavorito()"
+        >
+          Agregar
+        </button>
       </div>
     </div>
   </div>
@@ -32,29 +43,27 @@
   <!-- Lista de Juegos Favoritos -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Favoritos</label>
-    <div class="col-sm-9">
-      <!--<div
+    <div class="col-sm-9" formArrayName="favoritos">
+      <div
         class="input-group mb-1"
-        *ngFor="let juego of persona.favoritos; let i = index"
+        *ngFor="let item of favoritosArr.controls; let i = index"
       >
-        <input
-          class="form-control"
-        />
+        <input class="form-control" [formControlName]="i" />
 
         <button
           class="btn btn-outline-danger"
           type="button"
-          (click)="eliminar(i)"
+          (click)="borrar(i)"
         >
           Eliminar
         </button>
-      </div>-->
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      <button type="button" class="btn btn-primary float-end">Guardar</button>
+      <button type="submit" class="btn btn-primary float-end">Guardar</button>
     </div>
   </div>
 </form>
