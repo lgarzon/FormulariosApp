@@ -40,6 +40,20 @@ export class RegistroComponent implements OnInit {
     }
   );
 
+  get emailErrorMsg(): string {
+    const errors = this.miFormulario.get('email')?.errors;
+
+    if (errors?.required) {
+      return 'Email es obligatorio';
+    } else if (errors?.pattern) {
+      return 'Email ingresado no es valido';
+    } else if (errors?.emailTomado) {
+      return 'Email ingresado ya existe';
+    }
+
+    return '';
+  }
+
   constructor(
     private fb: FormBuilder,
     private validatorService: ValidatorService,
